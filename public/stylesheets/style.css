@@ -1,0 +1,71 @@
+body {
+  margin: 0px;
+  background-image: url("../images/background.jpeg");
+  background-size: 100%;
+  background-attachment:fixed;
+  background-position:center bottom;
+  background-repeat: no-repeat;
+ 
+}
+
+
+/* Style the header */
+.header {
+  background: linear-gradient(rgb(122, 41, 31) 70%, transparent 100%);
+  color: antiquewhite;
+  padding: 30px;
+  text-align: center;
+  font-size: 35px;
+}
+/* Style the top navigation bar */
+.topnav {
+  overflow: hidden;
+  background-color: #686868;
+}
+
+/* Style the topnav links */
+.topnav a {
+  float: left;
+  display: block;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+/* Change color on hover */
+.topnav a:hover {
+  background-color: #ddd;
+  color: black;
+}
+#movies-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.movie-card {
+  width: 200px;
+  margin: 10px;
+  background-color: white;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  text-align: center;
+}
+
+.movie-card img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 5px;
+}
+
+.movie-card h3 {
+  font-size: 1.2em;
+  margin-top: 10px;
+}
+
+.movie-card p {
+  font-size: 1em;
+  color: #555;
+}
