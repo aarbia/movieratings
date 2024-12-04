@@ -32,33 +32,39 @@ router.get('/movie/:id', function(req, res, next) {
 router.get('/movieDetails/:id', function(req, res, next) {
 
   const movieId = req.params.id;
-
+  //build queries
   const queryMovie = `
-    SELECT m.movie_id, m.title, m.release_year, m.director_name, p.company_name
+    SELECT movie_id, title, release_year, director_name
+    FROM movie
+    WHERE movie_id = ?
+  `;
+
+  const queryProduction = `
+    SELECT m.movie_id, p.production_company_id, p.company_name, p.year_founded, CONCAT(p.headquarters_city, ", ", p.headquarters_country) AS prodAddress
     FROM movie m
     LEFT JOIN production_company p USING (production_company_id)
     WHERE m.movie_id = ?
-  `;
+`;
   
   const queryCast = `
-    SELECT c.actor_name, c.character_name
-    FROM cast c
-    WHERE c.movie_id = ?
+    SELECT actor_name, character_name
+    FROM cast 
+    WHERE movie_id = ?
   `;
   
   const queryRatings = `
-    SELECT r.source, r.rating, r.top_25_rank
-    FROM ratings r
-    WHERE r.movie_id = ?
+    SELECT source, rating, top_25_rank
+    FROM ratings 
+    WHERE movie_id = ?
   `;
   
   const queryWebsite = `
-    SELECT w.imdb_url, w.metacritic_url, w.rotten_tomatoes_url, w.wikipedia_url
-    FROM website w
-    WHERE w.movie_id = ?
+    SELECT imdb_url, metacritic_url, rotten_tomatoes_url, wikipedia_url
+    FROM website 
+    WHERE movie_id = ?
   `;
   
-  // Fetch the movie information
+  //fetch the movie information
   con.query(queryMovie, [movieId], function(err, movieResults) {
     if (err) {
       console.log("Error retrieving movie.");
@@ -72,45 +78,57 @@ router.get('/movieDetails/:id', function(req, res, next) {
 
     const movieData = movieResults[0];
 
-    // Fetch the cast information
-    con.query(queryCast, [movieId], (err, castResults) => {
+    //fetch production company information
+    con.query(queryProduction, [movieId], (err, productionResults) => {
       if (err) {
-        console.log("Error retrieving cast.");
+        console.log("Error retrieving production company.");
         next(err);
       }
+      const productionData = productionResults[0] || {};
 
-      // Fetch the ratings information
-      con.query(queryRatings, [movieId], (err, ratingsResults) => {
+      //fetch the cast information
+      con.query(queryCast, [movieId], (err, castResults) => {
         if (err) {
-          console.log("Error retrieving ratings.");
+          console.log("Error retrieving cast.");
           next(err);
         }
 
-        // Fetch the website URLs
-        con.query(queryWebsite, [movieId], (err, websiteResults) => {
+        //fetch the ratings information
+        con.query(queryRatings, [movieId], (err, ratingsResults) => {
           if (err) {
-            console.log("Error retrieving website links.");
+            console.log("Error retrieving ratings.");
             next(err);
           }
 
-          const websiteData = websiteResults[0] || {};
+          //fetch the website URLs
+          con.query(queryWebsite, [movieId], (err, websiteResults) => {
+            if (err) {
+              console.log("Error retrieving website links.");
+              next(err);
+            }
 
-          // Combine all the results and send them as the response
-          const responseData = {
-            title: movieData.title,
-            release_year: movieData.release_year,
-            movie_poster: `${movieId}.jpg`,
-            director_name: movieData.director_name,
-            production_company_name: movieData.production_company_name,
-            cast: castResults || [],               // Cast array
-            ratings: ratingsResults || [],         // Ratings array
-            imdb_url: websiteData.imdb_url,
-            metacritic_url: websiteData.metacritic_url,
-            rotten_tomatoes_url: websiteData.rotten_tomatoes_url,
-            wikipedia_url: websiteData.wikipedia_url
-          };
-          console.log('Sending response:', responseData);
-          res.json(responseData);
+            const websiteData = websiteResults[0] || {};
+
+            //combine all the results and send them as the response
+            const responseData = {
+              title: movieData.title,
+              release_year: movieData.release_year,
+              movie_poster: `${movieId}.jpg`,
+              director_name: movieData.director_name,
+              production_company_name: movieData.production_company_name,
+              company_name: productionData.company_name,
+              year_founded:productionData.year_founded,
+              prodAddress:productionData.prodAddress,
+              cast: castResults || [], 
+              ratings: ratingsResults || [],
+              imdb_url: websiteData.imdb_url,
+              metacritic_url: websiteData.metacritic_url,
+              rotten_tomatoes_url: websiteData.rotten_tomatoes_url,
+              wikipedia_url: websiteData.wikipedia_url
+            };
+            console.log('Sending response:', responseData);
+            res.json(responseData);
+          });
         });
       });
     });

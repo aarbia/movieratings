@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
-    const movieId = window.location.pathname.split('/')[2];  // Extract movie ID from the URL
+    const movieId = window.location.pathname.split('/')[2];  //movie id from url
   
     fetch(`/movieDetails/${movieId}`)
         .then(response => {
@@ -9,19 +9,27 @@ document.addEventListener('DOMContentLoaded', function() {
             return response.json(); 
         })
         .then(movie => {
+            //add movie information
             const movieDetails = document.getElementById('movie-details');
             const movieDetailsHTML = document.createElement('div');
-        
-            // Create the movie details section
             movieDetailsHTML.innerHTML = `
                 <h2>${movie.title} (${movie.release_year})</h2>
                 <img src="/images/${movie.movie_poster}" alt="${movie.title}" style="width:200px; max-width: 100%;">
                 <p><strong>Director:</strong> ${movie.director_name}</p>
-                <p><strong>Production Company:</strong> ${movie.production_company_name}</p>
             `;
             movieDetails.appendChild(movieDetailsHTML);
+
+            //add production company information
+            const productionDetails = document.getElementById('production-details');
+            const productionHTML = document.createElement('div');
+            productionHTML.innerHTML = `
+                <p><strong>Production Company:</strong> ${movie.company_name}</p>
+                <p><strong>Year Founded:</strong> ${movie.year_founded}</p>
+                <p><strong>Headquarters:</strong> ${movie.prodAddress}</p>
+            `;
+            productionDetails.appendChild(productionHTML);
         
-             // Add Cast Information
+            //add cast information
             const castDetails = document.getElementById('cast-details');
             const castHTML = document.createElement('div');
             if (Array.isArray(movie.cast) && movie.cast.length > 0) {
@@ -38,7 +46,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 castDetails.appendChild(castHTML);
             }
 
-            // Add Ratings Information
+            // Add ratings information
             const ratingsDetails = document.getElementById('ratings-details');
             const ratingsHTML = document.createElement('div');
             if (Array.isArray(movie.ratings) && movie.ratings.length > 0) {
@@ -55,6 +63,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 ratingsDetails.appendChild(ratingsHTML);
             }
 
+            //add website information
             const websiteDetails = document.getElementById('website-details');
             const websiteDetailsHTML = document.createElement('div');
             websiteDetailsHTML.innerHTML = `

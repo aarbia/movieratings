@@ -16,18 +16,10 @@
   <div class="header">
     <h1>Welcome to Movie Ratings</h1>
   </div>
-  <div class="container mt-4">
-    <div class="row" id="movie-list">
-      <div class="col-md-4 col-sm-6 mb-4">
-        <div class="card h-100">
-          <img src="../images/{movie.movie_poster}.jpg" class="card-img-top" alt="{movie.title}">
-          <div class="card-body">
-            <h5 class="card-title">{movie.title}</h5>
-            <p class="card-text">Released: {movie.release_year}</p>
-            <a href="/movie/{movie.movie_id}" class="btn btn-primary">More Info</a>
-          </div>
-        </div>
-      </div>
+
+  <div class="container">
+    <div class="row" id="movie-list"></div>
+  </div>
 
   <script src="/javascripts/script.js"></script>
 
