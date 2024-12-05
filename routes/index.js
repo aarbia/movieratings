@@ -11,9 +11,10 @@ router.get('/', function(req, res, next) {
 
 router.get('/movies', function(req, res, next) {
   const query = `
-    SELECT m.movie_id, m.title, m.release_year, m.director_name, p.company_name
-    FROM movie m
-    LEFT JOIN production_company p USING (production_company_id)
+    SELECT m.movie_id, m.title, m.release_year, AVG(CASE WHEN source = 'IMDb' THEN CAST(r.rating AS DECIMAL) * 10
+      ELSE CAST(r.rating AS DECIMAL) END) AS average_rating
+    FROM movie m LEFT JOIN ratings r USING (movie_id)
+    GROUP BY m.movie_id;
   `;
   con.query(query, function(err, result) {
     if (err) {

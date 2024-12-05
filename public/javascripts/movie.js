@@ -10,19 +10,26 @@ document.addEventListener('DOMContentLoaded', function() {
         })
         .then(movie => {
             //add movie information
-            const movieDetails = document.getElementById('movie-details');
-            const movieDetailsHTML = document.createElement('div');
-            movieDetailsHTML.innerHTML = `
-                <h2>${movie.title} (${movie.release_year})</h2>
-                <img src="/images/${movie.movie_poster}" alt="${movie.title}" style="width:200px; max-width: 100%;">
-                <p><strong>Director:</strong> ${movie.director_name}</p>
+            const movieTitle = document.getElementById('movie-title');
+            const movieTitleHTML = document.createElement('div');
+            movieTitleHTML.innerHTML = `
+                <h1>${movie.title} (${movie.release_year})</h1>
             `;
-            movieDetails.appendChild(movieDetailsHTML);
+            movieTitle.appendChild(movieTitleHTML);
+
+            //movie poster
+            const movieImg = document.getElementById('movie-img');
+            const movieImgHTML = document.createElement('div');
+            movieImgHTML.innerHTML = `
+                <img src="/images/${movie.movie_poster}" alt="${movie.title}" style="max-width: 100%;"></img>
+            `;
+            movieImg.appendChild(movieImgHTML);
 
             //add production company information
             const productionDetails = document.getElementById('production-details');
             const productionHTML = document.createElement('div');
             productionHTML.innerHTML = `
+                <p><strong>Director:</strong> ${movie.director_name}</p>
                 <p><strong>Production Company:</strong> ${movie.company_name}</p>
                 <p><strong>Year Founded:</strong> ${movie.year_founded}</p>
                 <p><strong>Headquarters:</strong> ${movie.prodAddress}</p>
@@ -39,7 +46,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     <li><strong>${castMember.actor_name}</strong> as ${castMember.character_name}</li>
                 `;
                 });
-                castHTML.innerHTML += '</ul>';
+                castHTML.innerHTML += '</ul><p></p>';
                 castDetails.appendChild(castHTML);
             } else {
                 castHTML.innerHTML += '<p>No cast information available.</p>';
@@ -56,7 +63,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     <li><strong>${rating.source}:</strong> ${rating.rating} (Top 25 Rank: ${rating.top_25_rank || 'N/A'})</li>
                 `;
                 });
-                ratingsHTML.innerHTML += '</ul>';
+                ratingsHTML.innerHTML += '</ul><p></p>';
                 ratingsDetails.appendChild(ratingsHTML);
             } else {
                 ratingsHTML.innerHTML += '<p>No rating information available.</p>';
@@ -67,6 +74,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const websiteDetails = document.getElementById('website-details');
             const websiteDetailsHTML = document.createElement('div');
             websiteDetailsHTML.innerHTML = `
+                <h3>External Links:</h3>
                 <p><strong>IMDb:</strong> <a href="${movie.imdb_url}" target="_blank">${movie.imdb_url}</a></p>
                 <p><strong>Metacritic:</strong> <a href="${movie.metacritic_url}" target="_blank">${movie.metacritic_url}</a></p>
                 <p><strong>Rotten Tomatoes:</strong> <a href="${movie.rotten_tomatoes_url}" target="_blank">${movie.rotten_tomatoes_url}</a></p>
@@ -74,6 +82,7 @@ document.addEventListener('DOMContentLoaded', function() {
             `;
             websiteDetails.appendChild(websiteDetailsHTML);
         })
+
         .catch(err => {
             console.error('Error fetching movie details:', err);
         });
