@@ -1,0 +1,3 @@
+[submodule "MovieDatabaseCRUD"]
+	path = MovieDatabaseCRUD
+	url = git@github.com:AJanedy/MovieDatabaseCRUD.git
