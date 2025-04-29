@@ -47,7 +47,7 @@ git clone https://github.com/aarbia/movieratings.git
 cd movieratings
 npm install
 # Set up your SQL database, visit MovieDatabase2.0 README for instructions
-npt start
+npm start
 ```
 Open your browser at http://localhost:3000
 
