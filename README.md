@@ -32,13 +32,13 @@ Users can sort by rating, release year, or alphabetically using simple frontend 
 | Tools  | Git, VS Code  |
 
 ## ⚙️ System Requirements
-Java Development Kit (JDK) Version 20 (or higher)
-Apache Maven 3.6 (or higher)
-MySQL (5.x or higher)
-XAMPP installed in root directory (C:\\xampp) and an instance of Xampp MySQL active
+- Java Development Kit (JDK) Version 20 (or higher)
+- Apache Maven 3.6 (or higher)
+- MySQL (5.x or higher)
+- XAMPP installed in root directory (C:\\xampp) and an instance of Xampp MySQL active
 
 For Website:
-Node.js (10.x or higher)
+- Node.js (10.x or higher)
 
 ## 🏁 How to Run Locally
 
